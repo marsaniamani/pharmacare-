@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nos Services | PharmaCare+</title>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --rose-pharma: #8B2252;
+            --vert-medical: #2E8B57;
+            --vert-clair: #E8F5E9;
+            --rose-clair: #F8E8F0;
+        }
+        
+        .has-text-rose { color: var(--rose-pharma); }
+        .has-text-vert { color: var(--vert-medical); }
+        .is-rose { background-color: var(--rose-pharma); color: white; }
+        .is-vert { background-color: var(--vert-medical); color: white; }
+        
+        .hero-services {
+            background: linear-gradient(135deg, var(--rose-pharma) 0%, var(--vert-medical) 100%);
+        }
+        
+        .service-card {
+            border-radius: 15px;
+            padding: 2rem;
+            height: 100%;
+            transition: transform 0.3s;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" role="navigation">
+        <div class="container">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="pharmacare.html">
+                    <strong class="has-text-vert">PharmaCare+</strong>
+                </a>
+            </div>
+            <div class="navbar-menu">
+                <div class="navbar-end">
+                    <a class="navbar-item" href="pharmacare.html">Accueil</a>
+                    <a class="navbar-item" href="catalogue.html">Catalogue</a>
+                    <a class="navbar-item is-active" href="services.html">Services</a>
+                    <a class="navbar-item" href="index.html">Portfolio</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero is-medium hero-services">
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <h1 class="title is-1 has-text-white">Nos Services Professionnels</h1>
+                <p class="subtitle is-4 has-text-white">Des solutions complètes pour votre santé</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section class="section">
+        <div class="container">
+            <div class="columns is-multiline">
+                <div class="column is-4">
+                    <div class="service-card has-background-vert-clair">
+                        <div class="service-icon has-text-vert">
+                            <i class="fas fa-truck"></i>
+                        </div>
+                        <h3 class="title is-4 has-text-vert">Livraison Express</h3>
+                        <p>Recevez vos médicaments en 2 heures maximum dans Nabeul et ses environs.</p>
+                        <a href="catalogue.html" class="button is-vert is-outlined mt-3">Commander</a>
+                    </div>
+                </div>
+                
+                <div class="column is-4">
+                    <div class="service-card has-background-rose-clair">
+                        <div class="service-icon has-text-rose">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <h3 class="title is-4 has-text-vert">Conseil Pharmacien</h3>
+                        <p>Nos pharmaciens diplômés vous conseillent gratuitement en ligne ou en boutique.</p>
+                        <button class="button is-rose is-outlined mt-3">Prendre RDV</button>
+                    </div>
+                </div>
+                
+                <div class="column is-4">
+                    <div class="service-card has-background-vert-clair">
+                        <div class="service-icon has-text-vert">
+                            <i class="fas fa-prescription"></i>
+                        </div>
+                        <h3 class="title is-4 has-text-vert">Gestion d'Ordonnances</h3>
+                        <p>Envoyez votre ordonnance par photo, nous préparons vos médicaments.</p>
+                        <button class="button is-vert is-outlined mt-3">Envoyer</button>
+                    </div>
+                </div>
+                
+                <div class="column is-4">
+                    <div class="service-card has-background-rose-clair">
+                        <div class="service-icon has-text-rose">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h3 class="title is-4 has-text-vert">Rappel de Prise</h3>
+                        <p>Système de rappel pour ne jamais oublier la prise de vos médicaments.</p>
+                        <button class="button is-rose is-outlined mt-3">Activer</button>
+                    </div>
+                </div>
+                
+                <div class="column is-4">
+                    <div class="service-card has-background-vert-clair">
+                        <div class="service-icon has-text-vert">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                        <h3 class="title is-4 has-text-vert">Suivi Santé</h3>
+                        <p>Suivez votre tension, glycémie et autres paramètres avec nos experts.</p>
+                        <button class="button is-vert is-outlined mt-3">Démarrer</button>
+                    </div>
+                </div>
+                
+                <div class="column is-4">
+                    <div class="service-card has-background-rose-clair">
+                        <div class="service-icon has-text-rose">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <h3 class="title is-4 has-text-vert">Service à Domicile</h3>
+                        <p>Pour les personnes à mobilité réduite, nous livrons et installons à domicile.</p>
+                        <button class="button is-rose is-outlined mt-3">Demander</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="has-text-centered mt-6">
+                <a href="catalogue.html" class="button is-rose is-large">Découvrir nos produits</a>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
