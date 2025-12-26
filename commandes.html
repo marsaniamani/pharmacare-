@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finaliser la Commande | PharmaCare+</title>
+    
+    <!-- Bulma CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --rose-pharma: #8B2252;
+            --vert-medical: #2E8B57;
+            --vert-clair: #E8F5E9;
+            --rose-clair: #F8E8F0;
+            --gris-fonce: #2C3E50;
+        }
+        
+        .has-text-rose { color: var(--rose-pharma) !important; }
+        .has-text-vert { color: var(--vert-medical) !important; }
+        .is-rose { background-color: var(--rose-pharma) !important; color: white !important; }
+        .is-vert { background-color: var(--vert-medical) !important; color: white !important; }
+        .has-background-vert-clair { background-color: var(--vert-clair) !important; }
+        .has-background-rose-clair { background-color: var(--rose-clair) !important; }
+        
+        /* Navigation */
+        .navbar {
+            box-shadow: 0 2px 15px rgba(139, 34, 82, 0.1);
+            border-bottom: 3px solid var(--rose-pharma);
+        }
+        
+        /* Structure de commande */
+        .order-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .order-step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            border-radius: 10px;
+            background: white;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+        
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 1rem;
+            background: var(--vert-medical);
+            color: white;
+        }
+        
+        .step-active .step-number {
+            background: var(--rose-pharma);
+            transform: scale(1.1);
+        }
+        
+        /* Cartes produit commande */
+        .order-item {
+            display: flex;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+            transition: background 0.3s;
+        }
+        
+        .order-item:hover {
+            background: var(--vert-clair);
+        }
+        
+        .item-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-right: 1.5rem;
+        }
+        
+        .item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* Quantité */
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .qty-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 1px solid var(--vert-medical);
+            background: white;
+            color: var(--vert-medical);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .qty-btn:hover {
+            background: var(--vert-medical);
+            color: white;
+        }
+        
+        .quantity-input {
+            width: 50px;
+            text-align: center;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 0.3rem;
+        }
+        
+        /* Résumé commande */
+        .order-summary {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border: 2px solid rgba(139, 34, 82, 0.1);
+            position: sticky;
+            top: 20px;
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .summary-total {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--rose-pharma);
+            border-top: 2px solid var(--vert-medical);
+            padding-top: 1rem;
+            margin-top: 1rem;
+        }
+        
+        /* Formulaire */
+        .form-section {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        /* Facture */
+        .invoice-container {
+            background: white;
+            border-radius: 15px;
+            padding: 3rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-width: 800px;
+            margin: 2rem auto;
+        }
+        
+        .invoice-header {
+            text-align: center;
+            border-bottom: 3px solid var(--vert-medical);
+            padding-bottom: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .invoice-logo {
+            color: var(--rose-pharma);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .invoice-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .invoice-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+        }
+        
+        .invoice-table th {
+            background: var(--vert-clair);
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 2px solid var(--vert-medical);
+        }
+        
+        .invoice-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .invoice-total {
+            text-align: right;
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--rose-pharma);
+            margin-top: 2rem;
+        }
+        
+        /* Boutons */
+        .btn-print {
+            background: var(--vert-medical);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+        }
+        
+        .btn-print:hover {
+            background: var(--rose-pharma);
+            transform: translateY(-2px);
+        }
+        
+        .btn-continue {
+            background: linear-gradient(135deg, var(--vert-medical), var(--rose-pharma));
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+        }
+        
+        .btn-continue:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(139, 34, 82, 0.2);
+        }
+        
+        /* Responsive */
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            
+            .invoice-container {
+                box-shadow: none;
+                padding: 0;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .order-step {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .step-number {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+            
+            .order-item {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .item-image {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+            
+            .invoice-details {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar is-white no-print" role="navigation" aria-label="main navigation">
+        <div class="container">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="pharmacare.html">
+                    <span class="icon has-text-rose">
+                        <i class="fas fa-plus-square fa-lg"></i>
+                    </span>
+                    <span class="ml-2"><strong class="has-text-vert">Pharma<span class="has-text-rose">Care+</span></strong></span>
+                </a>
+                
+                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+            
+            <div class="navbar-menu">
+                <div class="navbar-start">
+                    <a class="navbar-item" href="pharmacare.html">Accueil</a>
+                    <a class="navbar-item" href="catalogue.html">Catalogue</a>
+                    <a class="navbar-item is-active" href="commandes.html">Commande</a>
+                    <a class="navbar-item" href="index.html">Portfolio</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenu Principal -->
+    <section class="section">
+        <div class="container order-container">
+            <!-- Étapes de commande -->
+            <div class="no-print">
+                <div class="order-step step-active">
+                    <div class="step-number">1</div>
+                    <div>
+                        <h3 class="title is-5 has-text-vert">Panier</h3>
+                        <p class="has-text-grey">Vérifiez vos articles</p>
+                    </div>
+                </div>
+                
+                <div class="order-step">
+                    <div class="step-number">2</div>
+                    <div>
+                        <h3 class="title is-5">Informations de livraison</h3>
+                        <p class="has-text-grey">Adresse et coordonnées</p>
+                    </div>
+                </div>
+                
+                <div class="order-step">
+                    <div class="step-number">3</div>
+                    <div>
+                        <h3 class="title is-5">Paiement</h3>
+                        <p class="has-text-grey">Mode de règlement</p>
+                    </div>
+                </div>
+                
+                <div class="order-step">
+                    <div class="step-number">4</div>
+                    <div>
+                        <h3 class="title is-5">Confirmation</h3>
+                        <p class="has-text-grey">Facture et suivi</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section principale -->
+            <div class="columns">
+                <!-- Panier -->
+                <div class="column is-8">
+                    <div class="form-section">
+                        <h2 class="title is-3 has-text-vert mb-4">Votre Panier</h2>
+                        
+                        <div id="cart-items-container">
+                            <!-- Les articles du panier seront affichés ici -->
+                        </div>
+                        
+                        <!-- Message panier vide -->
+                        <div id="empty-cart-message" class="has-text-centered py-6" style="display: none;">
+                            <span class="icon is-large has-text-grey-light mb-3">
+                                <i class="fas fa-shopping-cart fa-3x"></i>
+                            </span>
+                            <h3 class="title is-4 has-text-grey">Votre panier est vide</h3>
+                            <p class="subtitle is-6 has-text-grey">Ajoutez des produits depuis notre catalogue</p>
+                            <a href="catalogue.html" class="button is-rose mt-4">
+                                <i class="fas fa-store mr-2"></i>
+                                Voir le catalogue
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Informations de livraison -->
+                    <div class="form-section">
+                        <h2 class="title is-3 has-text-vert mb-4">Informations de Livraison</h2>
+                        
+                        <form id="delivery-form">
+                            <div class="columns">
+                                <div class="column">
+                                    <div class="field">
+                                        <label class="label">Nom complet *</label>
+                                        <div class="control">
+                                            <input class="input" type="text" placeholder="Nom et prénom" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="column">
+                                    <div class="field">
+                                        <label class="label">Téléphone *</label>
+                                        <div class="control">
+                                            <input class="input" type="tel" placeholder="00 000 000" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="field">
+                                <label class="label">Adresse *</label>
+                                <div class="control">
+                                    <input class="input" type="text" placeholder="Rue et numéro" required>
+                                </div>
+                            </div>
+                            
+                            <div class="columns">
+                                <div class="column">
+                                    <div class="field">
+                                        <label class="label">Ville *</label>
+                                        <div class="control">
+                                            <input class="input" type="text" placeholder="Ville" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="column">
+                                    <div class="field">
+                                        <label class="label">Code postal *</label>
+                                        <div class="control">
+                                            <input class="input" type="text" placeholder="Code postal" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="field">
+                                <label class="label">Instructions de livraison</label>
+                                <div class="control">
+                                    <textarea class="textarea" rows="3" placeholder="Notes pour le livreur..."></textarea>
+                                </div>
+                            </div>
+                            
+                            <div class="field">
+                                <div class="control">
+                                    <label class="checkbox">
+                                        <input type="checkbox" required>
+                                        J'accepte les conditions générales de vente
+                                    </label>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Mode de paiement -->
+                    <div class="form-section">
+                        <h2 class="title is-3 has-text-vert mb-4">Mode de Paiement</h2>
+                        
+                        <div class="columns">
+                            <div class="column">
+                                <div class="payment-method">
+                                    <label class="radio">
+                                        <input type="radio" name="payment" value="cash" checked>
+                                        <span class="ml-2 has-text-weight-semibold">Paiement à la livraison</span>
+                                    </label>
+                                    <p class="help ml-4">Espèces ou carte bancaire</p>
+                                </div>
+                            </div>
+                            
+                            <div class="column">
+                                <div class="payment-method">
+                                    <label class="radio">
+                                        <input type="radio" name="payment" value="card">
+                                        <span class="ml-2 has-text-weight-semibold">Carte bancaire</span>
+                                    </label>
+                                    <p class="help ml-4">Paiement sécurisé en ligne</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Section carte bancaire (cachée par défaut) -->
+                        <div id="card-payment" style="display: none;">
+                            <div class="box mt-4">
+                                <div class="field">
+                                    <label class="label">Numéro de carte</label>
+                                    <div class="control">
+                                        <input class="input" type="text" placeholder="1234 5678 9012 3456">
+                                    </div>
+                                </div>
+                                
+                                <div class="columns">
+                                    <div class="column">
+                                        <div class="field">
+                                            <label class="label">Date d'expiration</label>
+                                            <div class="control">
+                                                <input class="input" type="text" placeholder="MM/AA">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="column">
+                                        <div class="field">
+                                            <label class="label">CVV</label>
+                                            <div class="control">
+                                                <input class="input" type="text" placeholder="123">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Résumé commande -->
+                <div class="column is-4">
+                    <div class="order-summary">
+                        <h2 class="title is-3 has-text-vert mb-4">Résumé de Commande</h2>
+                        
+                        <div class="summary-row">
+                            <span>Sous-total</span>
+                            <span id="subtotal">0,00 €</span>
+                        </div>
+                        
+                        <div class="summary-row">
+                            <span>Livraison</span>
+                            <span id="delivery-cost">3,50 €</span>
+                        </div>
+                        
+                        <div class="summary-row">
+                            <span>Remise</span>
+                            <span id="discount">-0,00 €</span>
+                        </div>
+                        
+                        <div class="summary-row summary-total">
+                            <span>Total TTC</span>
+                            <span id="total-price">0,00 €</span>
+                        </div>
+                        
+                        <p class="has-text-centered has-text-grey mt-4 mb-3">
+                            <i class="fas fa-truck mr-2"></i>
+                            Livraison estimée: <strong>2-4 heures</strong>
+                        </p>
+                        
+                        <button id="place-order-btn" class="btn-continue mt-4" disabled>
+                            <i class="fas fa-lock mr-2"></i>
+                            Finaliser la commande
+                        </button>
+                        
+                        <p class="has-text-centered has-text-grey mt-3 is-size-7">
+                            <i class="fas fa-shield-alt mr-1"></i>
+                            Paiement 100% sécurisé
+                        </p>
+                    </div>
+                    
+                    <!-- Code promotionnel -->
+                    <div class="box mt-4">
+                        <h3 class="title is-5 has-text-vert mb-3">Code promotionnel</h3>
+                        <div class="field has-addons">
+                            <div class="control is-expanded">
+                                <input class="input" type="text" placeholder="Entrez votre code" id="promo-code">
+                            </div>
+                            <div class="control">
+                                <button class="button is-vert" id="apply-promo">
+                                    Appliquer
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Boutons navigation -->
+            <div class="columns no-print">
+                <div class="column">
+                    <a href="catalogue.html" class="button is-light">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        Retour au catalogue
+                    </a>
+                </div>
+                <div class="column has-text-right">
+                    <button id="generate-invoice-btn" class="button is-rose" disabled>
+                        <i class="fas fa-file-invoice mr-2"></i>
+                        Générer la facture
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal Facture -->
+    <div class="modal" id="invoice-modal">
+        <div class="modal-background"></div>
+        <div class="modal-content" style="width: auto; max-width: 800px;">
+            <div class="invoice-container">
+                <!-- En-tête facture -->
+                <div class="invoice-header">
+                    <div class="invoice-logo">
+                        <i class="fas fa-plus-square"></i>
+                    </div>
+                    <h1 class="title is-2 has-text-vert">PharmaCare+</h1>
+                    <p class="subtitle is-5">Facture</p>
+                    <p class="has-text-grey">Pharmacie en ligne - Nabeul, Tunisie</p>
+                    <p class="has-text-grey">Tél: 72 000 000 | contact@pharmacare-plus.tn</p>
+                </div>
+                
+                <!-- Détails facture -->
+                <div class="invoice-details">
+                    <div>
+                        <h3 class="title is-5 has-text-vert">Client</h3>
+                        <p id="invoice-client-name">[Nom du client]</p>
+                        <p id="invoice-client-address">[Adresse]</p>
+                        <p id="invoice-client-phone">[Téléphone]</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="title is-5 has-text-vert">Facture</h3>
+                        <p><strong>N° Facture:</strong> <span id="invoice-number">PHC-2023-001</span></p>
+                        <p><strong>Date:</strong> <span id="invoice-date">[Date]</span></p>
+                        <p><strong>Mode de paiement:</strong> <span id="invoice-payment">[Paiement]</span></p>
+                    </div>
+                </div>
+                
+                <!-- Tableau produits -->
+                <table class="invoice-table">
+                    <thead>
+                        <tr>
+                            <th>Produit</th>
+                            <th>Prix unitaire</th>
+                            <th>Quantité</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody id="invoice-items">
+                        <!-- Les articles de la facture seront injectés ici -->
+                    </tbody>
+                </table>
+                
+                <!-- Totaux -->
+                <div class="has-text-right">
+                    <div class="summary-row">
+                        <span>Sous-total:</span>
+                        <span id="invoice-subtotal">0,00 €</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Livraison:</span>
+                        <span id="invoice-delivery">3,50 €</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Remise:</span>
+                        <span id="invoice-discount">0,00 €</span>
+                    </div>
+                    <div class="summary-row summary-total">
+                        <span>Total TTC:</span>
+                        <span id="invoice-total">0,00 €</span>
+                    </div>
+                </div>
+                
+                <!-- Informations supplémentaires -->
+                <div class="mt-5 pt-4 border-top">
+                    <h4 class="title is-5 has-text-vert">Informations importantes</h4>
+                    <ul class="has-text-grey">
+                        <li>Cette facture fait office de ticket de caisse</li>
+                        <li>Les médicaments sont non remboursables après ouverture</li>
+                        <li>Conserver cette facture pour tout échange ou retour</li>
+                        <li>Pour toute question: contact@pharmacare-plus.tn</li>
+                    </ul>
+                </div>
+                
+                <!-- Boutons facture -->
+                <div class="has-text-centered mt-6">
+                    <button class="btn-print mr-3" onclick="window.print()">
+                        <i class="fas fa-print"></i>
+                        Imprimer la facture
+                    </button>
+                    <button class="btn-print" onclick="closeInvoice()">
+                        <i class="fas fa-check"></i>
+                        Confirmer la commande
+                    </button>
+                </div>
+            </div>
+        </div>
+        <button class="modal-close is-large" aria-label="close" onclick="closeInvoice()"></button>
+    </div>
+
+    <script>
+        // Données
+        let cart = JSON.parse(localStorage.getItem('pharmaCart')) || [];
+        let deliveryCost = 3.50;
+        let discount = 0;
+        
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Menu burger
+            const burger = document.querySelector('.navbar-burger');
+            const menu = document.querySelector('.navbar-menu');
+            
+            if (burger && menu) {
+                burger.addEventListener('click', () => {
+                    burger.classList.toggle('is-active');
+                    menu.classList.toggle('is-active');
+                });
+            }
+            
+            // Charger le panier
+            loadCart();
+            updateOrderSummary();
+            
+            // Gestion paiement
+            document.querySelectorAll('input[name="payment"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    const cardSection = document.getElementById('card-payment');
+                    if (this.value === 'card') {
+                        cardSection.style.display = 'block';
+                    } else {
+                        cardSection.style.display = 'none';
+                    }
+                });
+            });
+            
+            // Code promo
+            document.getElementById('apply-promo').addEventListener('click', applyPromoCode);
+            
+            // Validation formulaire
+            document.querySelectorAll('#delivery-form input, #delivery-form textarea').forEach(input => {
+                input.addEventListener('input', validateForm);
+            });
+            
+            // Bouton commande
+            document.getElementById('place-order-btn').addEventListener('click', generateInvoice);
+            
+            // Bouton générer facture
+            document.getElementById('generate-invoice-btn').addEventListener('click', generateInvoice);
+        });
+        
+        // Charger le panier
+        function loadCart() {
+            const container = document.getElementById('cart-items-container');
+            const emptyMessage = document.getElementById('empty-cart-message');
+            
+            if (cart.length === 0) {
+                container.innerHTML = '';
+                emptyMessage.style.display = 'block';
+                return;
+            }
+            
+            emptyMessage.style.display = 'none';
+            container.innerHTML = '';
+            
+            cart.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.className = 'order-item';
+                itemElement.innerHTML = `
+                    <div class="item-image">
+                        <img src="${item.image}" alt="${item.name}">
+                    </div>
+                    <div style="flex: 1;">
+                        <h4 class="title is-5">${item.name}</h4>
+                        <p class="has-text-grey">${item.price.toFixed(2)} € / unité</p>
+                    </div>
+                    <div class="quantity-control">
+                        <button class="qty-btn" onclick="updateQuantity(${item.id}, -1)">-</button>
+                        <input type="number" class="quantity-input" value="${item.quantity}" 
+                               min="1" max="99" onchange="updateQuantity(${item.id}, this.value - ${item.quantity})">
+                        <button class="qty-btn" onclick="updateQuantity(${item.id}, 1)">+</button>
+                    </div>
+                    <div class="ml-3">
+                        <h4 class="title is-5 has-text-rose">${(item.price * item.quantity).toFixed(2)} €</h4>
+                    </div>
+                    <button class="button is-small is-danger is-light ml-3" onclick="removeFromCart(${item.id})">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                `;
+                container.appendChild(itemElement);
+            });
+        }
+        
+        // Mettre à jour la quantité
+        function updateQuantity(productId, change) {
+            const item = cart.find(item => item.id === productId);
+            if (!item) return;
+            
+            const newQuantity = item.quantity + parseInt(change);
+            if (newQuantity < 1) {
+                removeFromCart(productId);
+                return;
+            }
+            
+            item.quantity = newQuantity;
+            localStorage.setItem('pharmaCart', JSON.stringify(cart));
+            loadCart();
+            updateOrderSummary();
+        }
+        
+        // Supprimer du panier
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            localStorage.setItem('pharmaCart', JSON.stringify(cart));
+            loadCart();
+            updateOrderSummary();
+        }
+        
+        // Mettre à jour le résumé
+        function updateOrderSummary() {
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const total = subtotal + deliveryCost - discount;
+            
+            document.getElementById('subtotal').textContent = subtotal.toFixed(2) + ' €';
+            document.getElementById('delivery-cost').textContent = deliveryCost.toFixed(2) + ' €';
+            document.getElementById('discount').textContent = '-' + discount.toFixed(2) + ' €';
+            document.getElementById('total-price').textContent = total.toFixed(2) + ' €';
+            
+            // Activer/désactiver boutons
+            const canOrder = cart.length > 0;
+            document.getElementById('place-order-btn').disabled = !canOrder;
+            document.getElementById('generate-invoice-btn').disabled = !canOrder;
+        }
+        
+        // Appliquer code promo
+        function applyPromoCode() {
+            const code = document.getElementById('promo-code').value.toUpperCase();
+            let message = '';
+            
+            if (code === 'PHARMA10') {
+                const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                discount = subtotal * 0.10; // 10% de réduction
+                message = 'Code PHARMA10 appliqué: 10% de réduction!';
+            } else if (code === 'LIVRAISONOFFERTE') {
+                deliveryCost = 0;
+                discount = 0;
+                message = 'Livraison gratuite appliquée!';
+            } else if (code) {
+                message = 'Code promo invalide';
+                discount = 0;
+                deliveryCost = 3.50;
+            }
+            
+            if (message) {
+                showNotification(message);
+                updateOrderSummary();
+            }
+        }
+        
+        // Valider le formulaire
+        function validateForm() {
+            const form = document.getElementById('delivery-form');
+            const inputs = form.querySelectorAll('input[required], textarea[required]');
+            let isValid = true;
+            
+            inputs.forEach(input => {
+                if (!input.value.trim()) {
+                    isValid = false;
+                }
+            });
+            
+            return isValid;
+        }
+        
+        // Générer facture
+        function generateInvoice() {
+            if (cart.length === 0) {
+                showNotification('Votre panier est vide');
+                return;
+            }
+            
+            if (!validateForm()) {
+                showNotification('Veuillez remplir tous les champs obligatoires');
+                return;
+            }
+            
+            // Récupérer infos client
+            const form = document.getElementById('delivery-form');
+            const name = form.querySelector('input[type="text"]').value;
+            const address = form.querySelector('input[placeholder*="Rue"]').value;
+            const city = form.querySelector('input[placeholder="Ville"]').value;
+            const postal = form.querySelector('input[placeholder*="Code postal"]').value;
+            const phone = form.querySelector('input[type="tel"]').value;
+            const payment = document.querySelector('input[name="payment"]:checked').value;
+            
+            // Mettre à jour la facture
+            document.getElementById('invoice-client-name').textContent = name;
+            document.getElementById('invoice-client-address').textContent = `${address}, ${postal} ${city}`;
+            document.getElementById('invoice-client-phone').textContent = phone;
+            document.getElementById('invoice-payment').textContent = 
+                payment === 'cash' ? 'Paiement à la livraison' : 'Carte bancaire';
+            
+            // Date actuelle
+            const now = new Date();
+            document.getElementById('invoice-date').textContent = 
+                now.toLocaleDateString('fr-FR') + ' ' + now.toLocaleTimeString('fr-FR', {hour: '2-digit', minute:'2-digit'});
+            
+            // Numéro facture aléatoire
+            document.getElementById('invoice-number').textContent = 
+                `PHC-${now.getFullYear()}-${Math.floor(Math.random() * 10000).toString().padStart(4, '0')}`;
+            
+            // Articles facture
+            const invoiceItems = document.getElementById('invoice-items');
+            invoiceItems.innerHTML = '';
+            
+            let subtotal = 0;
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                subtotal += itemTotal;
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${item.name}</td>
+                    <td>${item.price.toFixed(2)} €</td>
+                    <td>${item.quantity}</td>
+                    <td>${itemTotal.toFixed(2)} €</td>
+                `;
+                invoiceItems.appendChild(row);
+            });
+            
+            // Totaux facture
+            const total = subtotal + deliveryCost - discount;
+            document.getElementById('invoice-subtotal').textContent = subtotal.toFixed(2) + ' €';
+            document.getElementById('invoice-delivery').textContent = deliveryCost.toFixed(2) + ' €';
+            document.getElementById('invoice-discount').textContent = '-' + discount.toFixed(2) + ' €';
+            document.getElementById('invoice-total').textContent = total.toFixed(2) + ' €';
+            
+            // Afficher la facture
+            document.getElementById('invoice-modal').classList.add('is-active');
+        }
+        
+        // Fermer facture
+        function closeInvoice() {
+            document.getElementById('invoice-modal').classList.remove('is-active');
+            
+            // Optionnel: vider le panier après confirmation
+            // localStorage.removeItem('pharmaCart');
+            // cart = [];
+            // loadCart();
+            // updateOrderSummary();
+            
+            showNotification('Commande confirmée! Votre facture a été générée.');
+        }
+        
+        // Afficher notification
+        function showNotification(message) {
+            // Créer notification
+            const notification = document.createElement('div');
+            notification.className = 'notification is-success';
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                z-index: 1000;
+                max-width: 300px;
+                animation: slideIn 0.3s ease;
+                border-left: 4px solid var(--vert-medical);
+                background: linear-gradient(135deg, var(--vert-medical), #2E8B57);
+                color: white;
+            `;
+            
+            notification.innerHTML = `
+                <button class="delete" onclick="this.parentElement.remove()"></button>
+                <p><i class="fas fa-check-circle mr-2"></i> ${message}</p>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Auto-suppression après 3s
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.style.animation = 'slideOut 0.3s ease';
+                    setTimeout(() => notification.remove(), 300);
+                }
+            }, 3000);
+        }
+        
+        // CSS animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
