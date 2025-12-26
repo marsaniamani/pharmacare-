@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catalogue | PharmaCare+</title>
+    
+    <!-- Bulma CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --rose-pharma: #8B2252;
+            --vert-medical: #2E8B57;
+            --vert-clair: #E8F5E9;
+            --rose-clair: #F8E8F0;
+            --gris-fonce: #2C3E50;
+        }
+
+        /* DESIGN GLOBAL */
+        body {
+            background: linear-gradient(135deg, #f9f7f3 0%, #e8f5e9 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+        }
+
+        /* NAVIGATION */
+        .navbar {
+            box-shadow: 0 2px 15px rgba(139, 34, 82, 0.1);
+            border-bottom: 3px solid var(--rose-pharma);
+        }
+        
+        .has-text-rose { color: var(--rose-pharma) !important; }
+        .has-text-vert { color: var(--vert-medical) !important; }
+        .is-rose { background-color: var(--rose-pharma) !important; color: white !important; }
+        .is-vert { background-color: var(--vert-medical) !important; color: white !important; }
+
+        /* BOUTON PANIER FLOATING */
+        .cart-floating-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+            background: linear-gradient(135deg, var(--rose-pharma), #bd6381);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 1rem 1.5rem;
+            box-shadow: 0 8px 25px rgba(255, 107, 157, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+
+        .cart-floating-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 12px 30px rgba(179, 102, 127, 0.6);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* BOUTON PANIER HEADER */
+        .cart-header-btn {
+            background: linear-gradient(135deg, var(--vert-medical), #2E8B57);
+            color: white;
+            border-radius: 25px;
+            padding: 0.7rem 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .cart-header-btn:hover {
+            background: linear-gradient(135deg, #2E8B57, var(--rose-pharma));
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(46, 139, 87, 0.3);
+        }
+
+        /* HERO SECTION */
+        .hero-catalogue {
+            background: linear-gradient(rgba(139, 34, 82, 0.9), rgba(46, 139, 87, 0.9)),
+                        url('https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80');
+            background-size: cover;
+            background-position: center;
+            padding: 4rem 1.5rem;
+            border-bottom: 5px solid var(--vert-medical);
+            position: relative;
+        }
+
+        .hero-catalogue .buttons {
+            margin-top: 2rem;
+        }
+
+        /* BOUTON PANIER HERO */
+        .cart-hero-btn {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            color: white;
+            border: 2px solid white;
+            border-radius: 50px;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .cart-hero-btn:hover {
+            background: white;
+            color: var(--rose-pharma);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        /* FILTRES */
+        .filters-section {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            border: 2px solid rgba(139, 34, 82, 0.2);
+            margin-bottom: 2rem;
+        }
+
+        .filter-button {
+            background: linear-gradient(135deg, var(--vert-medical), #2E8B57);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 0.8rem 1.5rem;
+            margin: 0.3rem;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .filter-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(46, 139, 87, 0.4);
+            background: linear-gradient(135deg, #2E8B57, var(--vert-medical));
+        }
+
+        .filter-button.active {
+            background: linear-gradient(135deg, var(--rose-pharma), #8b3b56);
+            box-shadow: 0 4px 10px rgba(139, 34, 82, 0.3);
+        }
+
+        /* CARTES PRODUITS */
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            transition: all 0.4s ease;
+            border: 1px solid rgba(139, 34, 82, 0.1);
+            height: 100%;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(139, 34, 82, 0.15);
+        }
+
+        .product-image {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.1);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: linear-gradient(135deg, var(--rose-pharma), #c76686);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .stock-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--vert-medical);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .product-content {
+            padding: 1.5rem;
+        }
+
+        .product-category {
+            color: var(--vert-medical);
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .product-title {
+            color: var(--gris-fonce);
+            font-size: 1.3rem;
+            margin: 0.5rem 0;
+            font-weight: 600;
+        }
+
+        .product-price {
+            color: var(--rose-pharma);
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+
+        .product-price .old-price {
+            color: #999;
+            text-decoration: line-through;
+            font-size: 1rem;
+            margin-right: 0.5rem;
+        }
+
+        /* BOUTON AJOUTER */
+        .add-to-cart-btn {
+            background: linear-gradient(135deg, var(--vert-medical), #2E8B57);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 0.8rem 1.5rem;
+            width: 100%;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .add-to-cart-btn:hover {
+            background: linear-gradient(135deg, #2E8B57, var(--rose-pharma));
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(46, 139, 87, 0.3);
+        }
+
+        /* SECTION PANIER BAS */
+        .cart-bottom-section {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 3rem;
+            border: 2px solid rgba(139, 34, 82, 0.3);
+            text-align: center;
+        }
+
+        .cart-summary-btn {
+            background: linear-gradient(135deg, var(--rose-pharma), #c4758f);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 1rem 3rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .cart-summary-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 107, 157, 0.4);
+            padding: 1rem 3.5rem;
+        }
+        
+        /* LIENS DE NAVIGATION */
+        .nav-link {
+            color: var(--gris-fonce);
+            font-weight: 500;
+        }
+        
+        .nav-link:hover {
+            color: var(--rose-pharma);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar is-white" role="navigation" aria-label="main navigation">
+        <div class="container">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="pharmacare.html">
+                    <span class="icon has-text-rose">
+                        <i class="fas fa-plus-square fa-lg"></i>
+                    </span>
+                    <span class="ml-2"><strong class="has-text-vert">Pharma<span class="has-text-rose">Care+</span></strong></span>
+                </a>
+                
+                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+            
+            <div class="navbar-menu">
+                <div class="navbar-start">
+                    <a class="navbar-item nav-link" href="pharmacare.html">Accueil</a>
+                    <a class="navbar-item nav-link is-active" href="catalogue.html">Catalogue</a>
+                    <a class="navbar-item nav-link" href="services.html">Services</a>
+                    <a class="navbar-item nav-link" href="#contact">Contact</a>
+                </div>
+                
+                <div class="navbar-end">
+                    <!-- BOUTON PANIER DANS LA NAVBAR -->
+                    <div class="navbar-item">
+                        <a href="commandes.html" class="cart-header-btn">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span>Panier</span>
+                            <span id="cart-count-header" class="tag is-danger ml-2" style="display: none;">0</span>
+                        </a>
+                    </div>
+                    
+                    <div class="navbar-item">
+                        <a href="index.html" class="button is-rose is-outlined">
+                            <span class="icon"><i class="fas fa-user"></i></span>
+                            <span>Portfolio</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Catalogue -->
+    <section class="hero-catalogue">
+        <div class="container">
+            <div class="has-text-centered">
+                <h1 class="title is-1 has-text-white mb-3">Catalogue PharmaCare+</h1>
+                <p class="subtitle is-4 has-text-light">
+                    Découvrez notre sélection de produits de santé et bien-être
+                </p>
+                
+                <!-- BOUTONS DANS LE HERO -->
+                <div class="buttons is-centered">
+                    <a href="#products" class="button is-light is-large">
+                        <i class="fas fa-arrow-down mr-2"></i> Explorer les produits
+                    </a>
+                    <a href="commandes.html" class="cart-hero-btn">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>Voir mon panier</span>
+                        <span id="cart-count-hero" class="tag is-danger ml-2" style="display: none;">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Filtres et Produits -->
+    <section class="section">
+        <div class="container">
+            <div class="filters-section">
+                <div class="level is-mobile">
+                    <div class="level-left">
+                        <h2 class="title is-4 has-text-vert">Filtrer par catégorie</h2>
+                    </div>
+                    <div class="level-right">
+                        <!-- MINI BOUTON PANIER -->
+                        <a href="commandes.html" class="button is-small is-vert is-rounded">
+                            <i class="fas fa-shopping-cart mr-1"></i>
+                            <span>Panier</span>
+                            <span id="cart-count-filter" class="tag is-danger ml-1" style="display: none;">0</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Indicateur filtre actif -->
+                <div id="active-filter" class="notification is-light mb-4" style="display: none; border-left: 4px solid var(--vert-medical);">
+                    <div class="level is-mobile">
+                        <div class="level-left">
+                            <span id="filter-text">Tous les produits</span>
+                        </div>
+                        <div class="level-right">
+                            <button id="clear-filter" class="button is-small is-text">
+                                <i class="fas fa-times"></i> Effacer
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Boutons filtres -->
+                <div class="buttons are-medium is-centered">
+                    <button class="filter-button active" data-category="all">
+                        <i class="fas fa-th-large mr-2"></i> Tous les produits
+                    </button>
+                    <button class="filter-button" data-category="medicaments">
+                        <i class="fas fa-pills mr-2"></i> Médicaments
+                    </button>
+                    <button class="filter-button" data-category="parapharmacie">
+                        <i class="fas fa-spa mr-2"></i> Parapharmacie
+                    </button>
+                    <button class="filter-button" data-category="hygiene">
+                        <i class="fas fa-hands-wash mr-2"></i> Hygiène
+                    </button>
+                    <button class="filter-button" data-category="materiel">
+                        <i class="fas fa-stethoscope mr-2"></i> Matériel médical
+                    </button>
+                </div>
+
+                <!-- Compteur produits -->
+                <div class="has-text-centered mt-4">
+                    <p class="subtitle is-5 has-text-grey">
+                        <span id="product-count" class="has-text-vert">0</span> produits disponibles • 
+                        <span id="cart-items-count" class="has-text-rose">0</span> articles dans le panier
+                    </p>
+                </div>
+            </div>
+
+            <!-- Grille Produits -->
+            <div id="products-grid" class="columns is-multiline">
+                <!-- Les produits seront injectés ici -->
+            </div>
+
+            <!-- SECTION BAS DE PAGE -->
+            <div class="cart-bottom-section" id="cart-bottom">
+                <h3 class="title is-4 has-text-vert">Votre sélection</h3>
+                <p class="subtitle is-6">
+                    Vous avez <span id="cart-total-items" class="has-text-vert has-text-weight-bold">0 article(s)</span> dans votre panier
+                </p>
+                <p class="mb-4">
+                    Total: <span id="cart-total-price" class="has-text-rose has-text-weight-bold is-size-4">0,00 €</span>
+                </p>
+                <a href="commandes.html" class="cart-summary-btn">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span>Finaliser ma commande</span>
+                </a>
+                <p class="mt-4">
+                    <a href="pharmacare.html" class="has-text-vert">← Retour à l'accueil</a>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- BOUTON FLOTTANT PANIER -->
+    <button id="floating-cart-btn" class="cart-floating-btn" onclick="window.location.href='commandes.html'">
+        <i class="fas fa-shopping-cart"></i>
+        <span>Voir le panier</span>
+        <span id="floating-cart-count" class="tag is-danger" style="display: none;">0</span>
+    </button>
+
+    <!-- Template produit -->
+    <template id="product-template">
+        <div class="column is-3 product-item" data-category="" data-stock="">
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="" alt="" class="product-img">
+                    <div class="product-badge"></div>
+                    <div class="stock-badge"></div>
+                </div>
+                <div class="product-content">
+                    <p class="product-category"></p>
+                    <h3 class="product-title"></h3>
+                    <p class="product-description"></p>
+                    <div class="product-details">
+                        <p><strong>Laboratoire:</strong> <span class="lab-name"></span></p>
+                        <p><strong>Présentation:</strong> <span class="presentation"></span></p>
+                        <p><strong>Stock:</strong> <span class="stock-status"></span></p>
+                    </div>
+                    <div class="product-price">
+                        <span class="old-price"></span>
+                        <span class="current-price"></span>
+                    </div>
+                    <button class="add-to-cart-btn">
+                        <i class="fas fa-cart-plus"></i>
+                        Ajouter au panier
+                    </button>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <script>
+        // DONNÉES DES PRODUITS
+        const productsData = [
+            {
+                id: 1,
+                name: "Paracétamol 500mg",
+                category: "medicaments",
+                description: "Antalgique et antipyrétique pour douleurs légères à modérées",
+                price: 4.90,
+                oldPrice: 5.90,
+                image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                badge: "Sous ordonnance",
+                lab: "Bayer",
+                presentation: "Boîte de 16 comprimés",
+                stock: true,
+                stockText: "En stock"
+            },
+            {
+                id: 2,
+                name: "Vitamine C 1000mg",
+                category: "parapharmacie",
+                description: "Complément alimentaire pour renforcer l'immunité",
+                price: 23.92,
+                oldPrice: 29.90,
+                image: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                badge: "-20%",
+                lab: "Vitabio",
+                presentation: "60 comprimés effervescents",
+                stock: true,
+                stockText: "Stock élevé"
+            },
+            {
+                id: 3,
+                name: "Gel Hydroalcoolique",
+                category: "hygiene",
+                description: "Gel désinfectant pour les mains, 70% d'alcool",
+                price: 8.50,
+                oldPrice: null,
+                image: "https://images.unsplash.com/photo-1584467735871-8db9ac8fc107?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                badge: "Nouveau",
+                lab: "Dermophil",
+                presentation: "Flacon 500ml",
+                stock: true,
+                stockText: "En stock"
+            },
+            {
+                id: 4,
+                name: "Thermomètre Digital",
+                category: "materiel",
+                description: "Thermomètre frontal sans contact, lecture rapide",
+                price: 29.99,
+                oldPrice: 39.99,
+                image: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                badge: "-25%",
+                lab: "Braun",
+                presentation: "Avec écran LCD",
+                stock: true,
+                stockText: "Stock limité"
+            },
+            {
+                id: 5,
+                name: "Ibuprofène 400mg",
+                category: "medicaments",
+                description: "Anti-inflammatoire non stéroïdien",
+                price: 6.20,
+                oldPrice: null,
+                image: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                badge: "Sous ordonnance",
+                lab: "Advil",
+                presentation: "Boîte de 12 comprimés",
+                stock: true,
+                stockText: "En stock"
+            },
+            {
+                id: 6,
+                name: "Crème Hydratante Visage",
+                category: "parapharmacie",
+                description: "Crème anti-âge SPF 30, pour peau sensible",
+                price: 32.50,
+                oldPrice: 38.00,
+                image: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                badge: "Bestseller",
+                lab: "La Roche-Posay",
+                presentation: "Tube 50ml",
+                stock: true,
+                stockText: "Stock élevé"
+            },
+            {
+                id: 7,
+                name: "Compresses Stériles",
+                category: "materiel",
+                description: "Compresses non tissées 10x10cm, stériles",
+                price: 5.90,
+                oldPrice: null,
+                image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                badge: "Essentiel",
+                lab: "Hartmann",
+                presentation: "Boîte de 100",
+                stock: true,
+                stockText: "En stock"
+            },
+            {
+                id: 8,
+                name: "Spray Nasal Salin",
+                category: "hygiene",
+                description: "Solution physiologique pour hygiène nasale",
+                price: 7.20,
+                oldPrice: 8.50,
+                image: "https://images.unsplash.com/photo-1584467735871-8db9ac8fc107?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                badge: "Promo",
+                lab: "Physiomer",
+                presentation: "Flacon 100ml",
+                stock: true,
+                stockText: "En stock"
+            }
+        ];
+
+        // ÉTAT GLOBAL
+        let currentFilter = 'all';
+        let cart = JSON.parse(localStorage.getItem('pharmaCart')) || [];
+
+        // INITIALISATION
+        document.addEventListener('DOMContentLoaded', function() {
+            // Menu burger
+            const burger = document.querySelector('.navbar-burger');
+            const menu = document.querySelector('.navbar-menu');
+            
+            if (burger && menu) {
+                burger.addEventListener('click', () => {
+                    burger.classList.toggle('is-active');
+                    menu.classList.toggle('is-active');
+                });
+            }
+            
+            // Afficher tous les produits
+            displayProducts(productsData);
+            updateProductCount();
+            
+            // Gestion des filtres
+            setupFilterButtons();
+            
+            // Mettre à jour tous les compteurs de panier
+            updateAllCartCounters();
+            
+            // Mettre à jour la section panier bas
+            updateCartBottomSection();
+            
+            // Masquer initialement la section panier bas si vide
+            if (cart.length === 0) {
+                document.getElementById('cart-bottom').style.display = 'none';
+            }
+        });
+
+        // AFFICHER LES PRODUITS
+        function displayProducts(products) {
+            const grid = document.getElementById('products-grid');
+            const template = document.getElementById('product-template');
+            
+            grid.innerHTML = '';
+            
+            products.forEach(product => {
+                const clone = template.content.cloneNode(true);
+                const item = clone.querySelector('.product-item');
+                
+                // Définir les attributs de données
+                item.dataset.category = product.category;
+                item.dataset.stock = product.stock;
+                item.dataset.id = product.id;
+                
+                // Remplir les informations
+                item.querySelector('.product-img').src = product.image;
+                item.querySelector('.product-img').alt = product.name;
+                item.querySelector('.product-category').textContent = getCategoryLabel(product.category);
+                item.querySelector('.product-title').textContent = product.name;
+                item.querySelector('.product-description').textContent = product.description;
+                item.querySelector('.lab-name').textContent = product.lab;
+                item.querySelector('.presentation').textContent = product.presentation;
+                item.querySelector('.stock-status').textContent = product.stockText;
+                
+                // Prix
+                const priceContainer = item.querySelector('.product-price');
+                if (product.oldPrice) {
+                    priceContainer.querySelector('.old-price').textContent = `${product.oldPrice.toFixed(2)} €`;
+                    priceContainer.querySelector('.old-price').style.display = 'inline';
+                } else {
+                    priceContainer.querySelector('.old-price').style.display = 'none';
+                }
+                priceContainer.querySelector('.current-price').textContent = `${product.price.toFixed(2)} €`;
+                
+                // Badge
+                const badge = item.querySelector('.product-badge');
+                if (product.badge) {
+                    badge.textContent = product.badge;
+                    badge.style.display = 'block';
+                } else {
+                    badge.style.display = 'none';
+                }
+                
+                // Stock badge
+                const stockBadge = item.querySelector('.stock-badge');
+                if (product.stock) {
+                    stockBadge.textContent = product.stockText;
+                    stockBadge.style.backgroundColor = 'var(--vert-medical)';
+                } else {
+                    stockBadge.textContent = "Rupture";
+                    stockBadge.style.backgroundColor = 'var(--rose-pharma)';
+                }
+                
+                // Bouton ajouter
+                const addButton = item.querySelector('.add-to-cart-btn');
+                if (!product.stock) {
+                    addButton.textContent = "Rupture de stock";
+                    addButton.disabled = true;
+                    addButton.style.background = "#ccc";
+                    addButton.style.cursor = "not-allowed";
+                } else {
+                    addButton.addEventListener('click', () => addToCart(product));
+                }
+                
+                grid.appendChild(clone);
+            });
+        }
+
+        // AJOUTER AU PANIER
+        function addToCart(product) {
+            const existingItem = cart.find(item => item.id === product.id);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    image: product.image,
+                    quantity: 1
+                });
+            }
+            
+            // Sauvegarder dans localStorage
+            localStorage.setItem('pharmaCart', JSON.stringify(cart));
+            
+            // Mettre à jour les compteurs
+            updateAllCartCounters();
+            
+            // Mettre à jour la section bas
+            updateCartBottomSection();
+            
+            // Afficher la section panier bas si elle était cachée
+            document.getElementById('cart-bottom').style.display = 'block';
+            
+            // Afficher notification
+            showNotification(`${product.name} ajouté au panier !`);
+        }
+
+        // METTRE À JOUR TOUS LES COMPTEURS
+        function updateAllCartCounters() {
+            const totalItems = getCartTotalItems();
+            const totalPrice = getCartTotalPrice();
+            
+            // Mettre à jour tous les compteurs
+            const counters = [
+                'cart-count-header',
+                'cart-count-hero', 
+                'cart-count-filter',
+                'floating-cart-count',
+                'cart-items-count'
+            ];
+            
+            counters.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.textContent = totalItems;
+                    element.style.display = totalItems > 0 ? 'inline-block' : 'none';
+                }
+            });
+            
+            // Mettre à jour le texte d'articles
+            document.getElementById('cart-total-items').textContent = 
+                `${totalItems} article${totalItems > 1 ? 's' : ''}`;
+            
+            // Mettre à jour le prix total
+            document.getElementById('cart-total-price').textContent = 
+                `${totalPrice.toFixed(2)} €`;
+        }
+
+        // METTRE À JOUR LA SECTION PANIER BAS
+        function updateCartBottomSection() {
+            const totalItems = getCartTotalItems();
+            const totalPrice = getCartTotalPrice();
+            
+            if (totalItems > 0) {
+                document.getElementById('cart-bottom').style.display = 'block';
+                document.getElementById('cart-total-items').textContent = 
+                    `${totalItems} article${totalItems > 1 ? 's' : ''}`;
+                document.getElementById('cart-total-price').textContent = 
+                    `${totalPrice.toFixed(2)} €`;
+            } else {
+                document.getElementById('cart-bottom').style.display = 'none';
+            }
+        }
+
+        // CALCULER LE TOTAL D'ARTICLES
+        function getCartTotalItems() {
+            return cart.reduce((sum, item) => sum + item.quantity, 0);
+        }
+
+        // CALCULER LE PRIX TOTAL
+        function getCartTotalPrice() {
+            return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+        }
+
+        // FILTRER LES PRODUITS
+        function filterProducts(category) {
+            currentFilter = category;
+            
+            let filteredProducts;
+            if (category === 'all') {
+                filteredProducts = productsData.filter(p => p.stock === true);
+                document.getElementById('active-filter').style.display = 'none';
+            } else {
+                filteredProducts = productsData.filter(p => 
+                    p.category === category && p.stock === true
+                );
+                
+                // Mettre à jour l'indicateur
+                const filterIndicator = document.getElementById('active-filter');
+                const filterText = document.getElementById('filter-text');
+                filterText.textContent = `Catégorie: ${getCategoryLabel(category)}`;
+                filterIndicator.style.display = 'block';
+            }
+            
+            displayProducts(filteredProducts);
+            updateProductCount(filteredProducts.length);
+            
+            // Mettre à jour les boutons filtres
+            document.querySelectorAll('.filter-button').forEach(btn => {
+                if (btn.dataset.category === category) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+        // CONFIGURER LES BOUTONS FILTRES
+        function setupFilterButtons() {
+            document.querySelectorAll('.filter-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const category = this.dataset.category;
+                    filterProducts(category);
+                });
+            });
+            
+            // Bouton effacer filtre
+            document.getElementById('clear-filter').addEventListener('click', function() {
+                filterProducts('all');
+            });
+        }
+
+        // FONCTIONS UTILITAIRES
+        function getCategoryLabel(category) {
+            const labels = {
+                'all': 'Tous les produits',
+                'medicaments': 'Médicaments',
+                'parapharmacie': 'Parapharmacie',
+                'hygiene': 'Hygiène',
+                'materiel': 'Matériel médical'
+            };
+            return labels[category] || category;
+        }
+
+        function updateProductCount(count = null) {
+            if (count === null) {
+                count = productsData.filter(p => p.stock === true).length;
+            }
+            document.getElementById('product-count').textContent = count;
+        }
+
+        function showNotification(message) {
+            // Créer notification
+            const notification = document.createElement('div');
+            notification.className = 'notification is-success';
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                z-index: 1000;
+                max-width: 300px;
+                animation: slideIn 0.3s ease;
+                border-left: 4px solid var(--vert-medical);
+                background: linear-gradient(135deg, var(--vert-medical), #2E8B57);
+                color: white;
+            `;
+            
+            notification.innerHTML = `
+                <button class="delete"></button>
+                <p><i class="fas fa-check-circle mr-2"></i> ${message}</p>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Auto-suppression après 3s
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+            
+            // Bouton fermer
+            notification.querySelector('.delete').addEventListener('click', () => {
+                notification.remove();
+            });
+        }
+
+        // CSS pour les animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
