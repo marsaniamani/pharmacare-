@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PharmaCare+ | Votre Santé, Notre Priorité</title>
+    
+    <!-- Bulma CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    
+    <!-- Style personnalisé PharmaCare+ -->
+    <style>
+        :root {
+            --rose-pharma: #8B2252;          /* Rose foncé pharmaceutique */
+            --vert-medical: #2E8B57;         /* Vert médical */
+            --vert-clair: #E8F5E9;          /* Vert clair pour fonds */
+            --rose-clair: #F8E8F0;          /* Rose clair */
+            --gris-fonce: #2C3E50;          /* Gris foncé */
+            --blanc: #FFFFFF;
+        }
+        
+        /* Classes Bulma personnalisées */
+        .has-text-rose { color: var(--rose-pharma) !important; }
+        .has-text-vert { color: var(--vert-medical) !important; }
+        .is-rose { background-color: var(--rose-pharma) !important; color: white !important; }
+        .is-vert { background-color: var(--vert-medical) !important; color: white !important; }
+        .has-background-vert-clair { background-color: var(--vert-clair) !important; }
+        .has-background-rose-clair { background-color: var(--rose-clair) !important; }
+        
+        /* Navigation améliorée */
+        .navbar {
+            box-shadow: 0 2px 15px rgba(139, 34, 82, 0.1);
+            border-bottom: 3px solid var(--rose-pharma);
+        }
+        
+        /* Hero Section avec gradient */
+        .hero.is-pharma {
+            background: linear-gradient(135deg, rgba(139, 34, 82, 0.9) 0%, rgba(46, 139, 87, 0.9) 100%),
+                        url('https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80');
+            background-size: cover;
+            background-position: center;
+            padding: 6rem 1.5rem;
+        }
+        
+        /* Cartes services */
+        .service-card {
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            height: 100%;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(139, 34, 82, 0.15);
+            border-color: var(--rose-pharma);
+        }
+        
+        .icon-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: white;
+        }
+        
+        .icon-circle.rose { background-color: var(--rose-pharma); }
+        .icon-circle.vert { background-color: var(--vert-medical); }
+        
+        /* Produits populaires - Cards avec effet hover */
+        .product-card {
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 2px solid var(--vert-clair);
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(46, 139, 87, 0.2);
+        }
+        
+        .promo-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 10;
+        }
+        
+        /* Formulaire de contact */
+        .contact-form {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        /* Footer amélioré */
+        footer {
+            background-color: var(--gris-fonce);
+            color: white;
+        }
+        
+        .footer-links a {
+            color: #ddd;
+            display: block;
+            margin-bottom: 8px;
+        }
+        
+        .footer-links a:hover {
+            color: var(--vert-medical);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero.is-pharma {
+                padding: 4rem 1.5rem;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem !important;
+            }
+            
+            .service-card {
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
+        <div class="container">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="pharmacare.html">
+                    <span class="icon has-text-rose">
+                        <i class="fas fa-plus-square fa-2x"></i>
+                    </span>
+                    <span class="title is-4 has-text-vert ml-2">
+                        Pharma<span class="has-text-rose">Care+</span>
+                    </span>
+                </a>
+                
+                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+            
+            <div class="navbar-menu">
+                <div class="navbar-start">
+                    <a class="navbar-item is-active" href="pharmacare.html">Accueil</a>
+                    <a class="navbar-item" href="catalogue.html">Catalogue</a>
+                    <a class="navbar-item" href="services.html">Services</a>
+                    <a class="navbar-item" href="#contact">Contact</a>
+                </div>
+                
+                <div class="navbar-end">
+                    <!-- Compteur panier dans la navbar -->
+                    <div class="navbar-item">
+                        <div class="buttons">
+                            <a href="catalogue.html" class="button is-vert">
+                                <span class="icon">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </span>
+                                <span>Voir le catalogue</span>
+                            </a>
+                            <a href="index.html" class="button is-rose is-outlined">
+                                <span class="icon">
+                                    <i class="fas fa-user"></i>
+                                </span>
+                                <span>Mon Portfolio</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero is-medium is-pharma">
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <h1 class="title hero-title is-1 has-text-white mb-4">
+                    Votre Santé, <span class="has-text-weight-bold">Notre Engagement</span>
+                </h1>
+                <h2 class="subtitle is-4 has-text-white mb-5">
+                    Pharmacie en ligne • Conseils professionnels • Livraison rapide
+                </h2>
+                
+                <!-- Barre de recherche -->
+                <div class="field has-addons is-justify-content-center mb-4">
+                    <div class="control">
+                        <input class="input is-large" type="text" placeholder="Rechercher un médicament...">
+                    </div>
+                    <div class="control">
+                        <button class="button is-rose is-large">
+                            <span class="icon"><i class="fas fa-search"></i></span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Tags -->
+                <div class="tags is-centered">
+                    <span class="tag is-vert is-medium">Livraison 2h</span>
+                    <span class="tag is-rose is-medium">Pharmacien en ligne</span>
+                    <span class="tag is-vert is-medium">Ordonnances digitales</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section class="section">
+        <div class="container">
+            <div class="has-text-centered mb-6">
+                <h2 class="title is-2 has-text-vert">Nos Services PharmaCare+</h2>
+                <p class="subtitle is-5 has-text-grey">Une expérience pharmaceutique complète</p>
+            </div>
+            
+            <div class="columns is-multiline">
+                <!-- Service 1 -->
+                <div class="column is-3">
+                    <div class="card service-card has-text-centered">
+                        <div class="card-content">
+                            <div class="icon-circle rose">
+                                <i class="fas fa-clock fa-2x"></i>
+                            </div>
+                            <h3 class="title is-4 has-text-vert mt-4">Livraison Express</h3>
+                            <p>Recevez vos médicaments en moins de 2 heures dans Nabeul</p>
+                            <a href="catalogue.html" class="button is-small is-rose is-outlined mt-3">
+                                Commander
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Service 2 -->
+                <div class="column is-3">
+                    <div class="card service-card has-text-centered">
+                        <div class="card-content">
+                            <div class="icon-circle vert">
+                                <i class="fas fa-user-md fa-2x"></i>
+                            </div>
+                            <h3 class="title is-4 has-text-vert mt-4">Conseil en ligne</h3>
+                            <p>Pharmaciens disponibles 24/7 pour vos questions santé</p>
+                            <a href="#contact" class="button is-small is-vert is-outlined mt-3">
+                                Poser une question
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Service 3 -->
+                <div class="column is-3">
+                    <div class="card service-card has-text-centered">
+                        <div class="card-content">
+                            <div class="icon-circle rose">
+                                <i class="fas fa-prescription fa-2x"></i>
+                            </div>
+                            <h3 class="title is-4 has-text-vert mt-4">Ordonnances</h3>
+                            <p>Envoyez votre ordonnance par photo, nous gérons le reste</p>
+                            <a href="#" class="button is-small is-rose is-outlined mt-3">
+                                Envoyer ordonnance
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Service 4 -->
+                <div class="column is-3">
+                    <div class="card service-card has-text-centered">
+                        <div class="card-content">
+                            <div class="icon-circle vert">
+                                <i class="fas fa-history fa-2x"></i>
+                            </div>
+                            <h3 class="title is-4 has-text-vert mt-4">Rappel de prise</h3>
+                            <p>Notifications pour ne jamais oublier vos médicaments</p>
+                            <a href="#" class="button is-small is-vert is-outlined mt-3">
+                                S'inscrire
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Produits populaires -->
+    <section class="section has-background-vert-clair">
+        <div class="container">
+            <div class="has-text-centered mb-6">
+                <h2 class="title is-2 has-text-rose">Nos Produits Populaires</h2>
+                <p class="subtitle is-5 has-text-grey">Découvrez nos meilleures ventes</p>
+            </div>
+            
+            <div class="columns is-multiline">
+                <!-- Produit 1 -->
+                <div class="column is-3">
+                    <div class="card product-card">
+                        <div class="card-image">
+                            <figure class="image is-4by3">
+                                <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Paracétamol">
+                            </figure>
+                            <span class="tag is-danger promo-badge">-15%</span>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="title is-5 has-text-vert">Paracétamol 500mg</h3>
+                            <p class="subtitle is-6">Boîte de 16 comprimés</p>
+                            <p class="mb-3">Antalgique et antipyrétique</p>
+                            
+                            <div class="level">
+                                <div class="level-left">
+                                    <span class="title is-4 has-text-rose">4,90 €</span>
+                                    <span class="has-text-grey ml-2"><s>5,75 €</s></span>
+                                </div>
+                                <div class="level-right">
+                                    <a href="catalogue.html" class="button is-small is-vert">
+                                        <i class="fas fa-cart-plus"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Produit 2 -->
+                <div class="column is-3">
+                    <div class="card product-card">
+                        <div class="card-image">
+                            <figure class="image is-4by3">
+                                <img src="https://images.unsplash.com/photo-1587854692152-cbe660dbde88?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Vitamine C">
+                            </figure>
+                            <span class="tag is-success promo-badge">Nouveau</span>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="title is-5 has-text-vert">Vitamine C 1000mg</h3>
+                            <p class="subtitle is-6">60 comprimés effervescents</p>
+                            <p class="mb-3">Renforce le système immunitaire</p>
+                            
+                            <div class="level">
+                                <div class="level-left">
+                                    <span class="title is-4 has-text-rose">23,92 €</span>
+                                </div>
+                                <div class="level-right">
+                                    <a href="catalogue.html" class="button is-small is-vert">
+                                        <i class="fas fa-cart-plus"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Produit 3 -->
+                <div class="column is-3">
+                    <div class="card product-card">
+                        <div class="card-image">
+                            <figure class="image is-4by3">
+                                <img src="https://images.unsplash.com/photo-1584467735871-8db9ac8fc107?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Gel hydroalcoolique">
+                            </figure>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="title is-5 has-text-vert">Gel Hydroalcoolique</h3>
+                            <p class="subtitle is-6">Flacon 500ml</p>
+                            <p class="mb-3">Gel désinfectant pour les mains</p>
+                            
+                            <div class="level">
+                                <div class="level-left">
+                                    <span class="title is-4 has-text-rose">8,50 €</span>
+                                </div>
+                                <div class="level-right">
+                                    <a href="catalogue.html" class="button is-small is-vert">
+                                        <i class="fas fa-cart-plus"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Produit 4 -->
+                <div class="column is-3">
+                    <div class="card product-card">
+                        <div class="card-image">
+                            <figure class="image is-4by3">
+                                <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Thermomètre">
+                            </figure>
+                            <span class="tag is-warning promo-badge">Promo</span>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="title is-5 has-text-vert">Thermomètre Digital</h3>
+                            <p class="subtitle is-6">Frontal sans contact</p>
+                            <p class="mb-3">Lecture rapide et précise</p>
+                            
+                            <div class="level">
+                                <div class="level-left">
+                                    <span class="title is-4 has-text-rose">29,99 €</span>
+                                    <span class="has-text-grey ml-2"><s>39,99 €</s></span>
+                                </div>
+                                <div class="level-right">
+                                    <a href="catalogue.html" class="button is-small is-vert">
+                                        <i class="fas fa-cart-plus"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="has-text-centered mt-6">
+                <a href="catalogue.html" class="button is-rose is-large">
+                    <span>Voir tout le catalogue</span>
+                    <span class="icon"><i class="fas fa-arrow-right"></i></span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="section" id="contact">
+        <div class="container">
+            <div class="columns is-vcentered">
+                <div class="column is-6">
+                    <h2 class="title is-2 has-text-vert">Contactez-nous</h2>
+                    <p class="subtitle is-5 has-text-grey">Nos pharmaciens vous répondent sous 15 minutes</p>
+                    
+                    <div class="content">
+                        <div class="notification has-background-rose-clair">
+                            <div class="media">
+                                <div class="media-left">
+                                    <span class="icon has-text-rose">
+                                        <i class="fas fa-phone-alt fa-2x"></i>
+                                    </span>
+                                </div>
+                                <div class="media-content">
+                                    <h4 class="title is-5 has-text-vert">Urgence 24/7</h4>
+                                    <p class="is-size-4 has-text-rose">72 000 000</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="notification has-background-vert-clair">
+                            <div class="media">
+                                <div class="media-left">
+                                    <span class="icon has-text-vert">
+                                        <i class="fas fa-envelope fa-2x"></i>
+                                    </span>
+                                </div>
+                                <div class="media-content">
+                                    <h4 class="title is-5 has-text-vert">Email</h4>
+                                    <p class="is-size-5 has-text-rose">contact@pharmacare-plus.tn</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="notification">
+                            <div class="media">
+                                <div class="media-left">
+                                    <span class="icon has-text-rose">
+                                        <i class="fas fa-map-marker-alt fa-2x"></i>
+                                    </span>
+                                </div>
+                                <div class="media-content">
+                                    <h4 class="title is-5 has-text-vert">Adresse</h4>
+                                    <p class="is-size-5">Avenue Habib Bourguiba, Nabeul</p>
+                                    <p class="has-text-grey">Ouvert 7j/7 de 8h à 20h</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="column is-6">
+                    <div class="contact-form">
+                        <form>
+                            <div class="field">
+                                <label class="label">Nom complet</label>
+                                <div class="control">
+                                    <input class="input" type="text" placeholder="Votre nom et prénom">
+                                </div>
+                            </div>
+                            
+                            <div class="field">
+                                <label class="label">Email</label>
+                                <div class="control">
+                                    <input class="input" type="email" placeholder="votre@email.com">
+                                </div>
+                            </div>
+                            
+                            <div class="field">
+                                <label class="label">Sujet</label>
+                                <div class="control">
+                                    <div class="select is-fullwidth">
+                                        <select>
+                                            <option>Question sur un médicament</option>
+                                            <option>Commande en ligne</option>
+                                            <option>Problème de livraison</option>
+                                            <option>Conseil santé</option>
+                                            <option>Autre</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="field">
+                                <label class="label">Message</label>
+                                <div class="control">
+                                    <textarea class="textarea" rows="5" placeholder="Décrivez votre demande..."></textarea>
+                                </div>
+                            </div>
+                            
+                            <div class="field">
+                                <div class="control">
+                                    <label class="checkbox">
+                                        <input type="checkbox">
+                                        J'accepte le traitement de mes données de santé
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="field">
+                                <div class="control">
+                                    <button class="button is-rose is-fullwidth is-large">
+                                        <span class="icon"><i class="fas fa-paper-plane"></i></span>
+                                        <span>Envoyer le message</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-4">
+                    <h3 class="title is-4 has-text-white">PharmaCare+</h3>
+                    <p class="has-text-light">Votre pharmacie de confiance à Nabeul. Service de qualité depuis 2023.</p>
+                    <div class="social-icons mt-4">
+                        <a class="icon has-text-white"><i class="fab fa-facebook-f"></i></a>
+                        <a class="icon has-text-white"><i class="fab fa-twitter"></i></a>
+                        <a class="icon has-text-white"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="column is-4">
+                    <h4 class="title is-5 has-text-white">Liens rapides</h4>
+                    <div class="footer-links">
+                        <a href="pharmacare.html">Accueil</a>
+                        <a href="catalogue.html">Catalogue produits</a>
+                        <a href="services.html">Nos services</a>
+                        <a href="#contact">Contact</a>
+                        <a href="index.html">Portfolio Développeur</a>
+                    </div>
+                </div>
+                
+                <div class="column is-4">
+                    <h4 class="title is-5 has-text-white">Projet Intégration Web</h4>
+                    <p class="has-text-light">Réalisé avec Bulma CSS</p>
+                    <p class="has-text-light">Faculté des Sciences Economiques et de Gestion de Nabeul</p>
+                    <p class="has-text-light">Dr. Oussama Ben Khiroun</p>
+                </div>
+            </div>
+            
+            <div class="has-text-centered mt-6">
+                <p>© 2023 PharmaCare+ | Projet académique - Intégration Web</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    
+    <!-- Script simple pour menu burger -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const burger = document.querySelector('.navbar-burger');
+            const menu = document.querySelector('.navbar-menu');
+            
+            if (burger) {
+                burger.addEventListener('click', () => {
+                    burger.classList.toggle('is-active');
+                    menu.classList.toggle('is-active');
+                });
+            }
+            
+            // Gestion soumission formulaire
+            const form = document.querySelector('form');
+            if (form) {
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    alert('Merci pour votre message ! Un pharmacien vous contactera sous 15 minutes.');
+                    form.reset();
+                });
+            }
+        });
+    </script>
+</body>
+</html>
