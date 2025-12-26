@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Portfolio | Étudiant en Développement Web</title>
+    
+    <!-- Bulma CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
+    
+    <!-- Style personnalisé -->
+    <style>
+        :root {
+            --rose-fonce: #8B2252;
+            --vert-medical: #2E8B57;
+            --vert-clair: #E8F5E9;
+            --gris-fonce: #2C3E50;
+        }
+        
+        .has-text-rose { color: var(--rose-fonce) !important; }
+        .has-text-vert { color: var(--vert-medical) !important; }
+        .is-rose { background-color: var(--rose-fonce) !important; color: white !important; }
+        .is-vert { background-color: var(--vert-medical) !important; color: white !important; }
+        .has-background-vert-clair { background-color: var(--vert-clair) !important; }
+        
+        .navbar { box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        
+        .hero.is-primary {
+            background: linear-gradient(135deg, var(--rose-fonce) 0%, var(--vert-medical) 100%);
+        }
+        
+        .card {
+            border-radius: 10px;
+            transition: transform 0.3s;
+            height: 100%;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(139, 34, 82, 0.1);
+        }
+        
+        .icon-large {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .section-title {
+            position: relative;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: var(--rose-fonce);
+        }
+        
+        .project-card .card-image {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .project-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .skill-tag {
+            margin: 5px;
+            background-color: var(--vert-clair) !important;
+            color: var(--vert-medical) !important;
+        }
+        
+        footer {
+            background-color: var(--gris-fonce);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
+        <div class="container">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="index.html">
+                    <strong class="has-text-rose">Mon Portfolio</strong>
+                </a>
+                
+                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+            
+            <div class="navbar-menu">
+                <div class="navbar-end">
+                    <a class="navbar-item" href="#accueil">Accueil</a>
+                    <a class="navbar-item" href="#apropos">À propos</a>
+                    <a class="navbar-item" href="#competences">Compétences</a>
+                    <a class="navbar-item" href="#projets">Projets</a>
+                    <a class="navbar-item" href="pharmacare.html">PharmaCare</a>
+                    <a class="navbar-item" href="#contact">Contact</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero is-primary is-medium" id="accueil">
+        <div class="hero-body">
+            <div class="container">
+                <div class="columns is-vcentered">
+                    <div class="column is-8">
+                        <h1 class="title is-1 has-text-white">
+                            MARSANI AMANI
+                        </h1>
+                        <h2 class="subtitle is-4 has-text-white">
+                            Étudiant en Développement Web | Intégration Web
+                        </h2>
+                        <p class="is-size-5 has-text-white mb-4">
+                            Passionné par le développement front-end et la création d'interfaces utilisateur modernes avec Bulma CSS.
+                        </p>
+                        <a href="pharmacare.html" class="button is-light is-medium">
+                            <strong>Voir mon projet PharmaCare</strong>
+                        </a>
+                    </div>
+                    <div class="column is-4 has-text-centered">
+                        <figure class="image is-256x256 mx-auto">
+                            <img class="is-rounded" src="c:\Users\lenovo\Downloads\Gemini_Generated_Image_hkfre5hkfre5hkfr (1).png" alt="Photo de profil" style="border: 5px solid white;">
+                        </figure>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- À propos -->
+    <section class="section" id="apropos">
+        <div class="container">
+            <h2 class="title is-2 section-title has-text-vert">À propos de moi</h2>
+            
+            <div class="columns">
+                <div class="column is-6">
+                    <div class="content">
+                        <h3 class="title is-4 has-text-grey-dark">Formation</h3>
+                        <div class="box">
+                            <article class="media">
+                                <div class="media-left">
+                                    <span class="icon has-text-vert">
+                                        <i class="fas fa-graduation-cap fa-2x"></i>
+                                    </span>
+                                </div>
+                                <div class="media-content">
+                                    <div class="content">
+                                        <p>
+                                            <strong>Faculté des Sciences Economiques et de Gestion de Nabeul</strong><br>
+                                            <small>Intégration Web - Projet Bulma CSS</small><br>
+                                            <small>Dr. Oussama Ben Khiroun</small>
+                                        </p>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                        
+                        <h3 class="title is-4 has-text-grey-dark mt-5">Expérience</h3>
+                        <div class="box">
+                            <article class="media">
+                                <div class="media-left">
+                                    <span class="icon has-text-rose">
+                                        <i class="fas fa-briefcase fa-2x"></i>
+                                    </span>
+                                </div>
+                                <div class="media-content">
+                                    <div class="content">
+                                        <p>
+                                            <strong>Développeur Web Front-end</strong><br>
+                                            <small>Création de sites web responsive avec HTML5, CSS3, Bulma</small>
+                                        </p>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="column is-6">
+                    <div class="content">
+                        <h3 class="title is-4 has-text-grey-dark">Objectifs</h3>
+                        <div class="box">
+                            <p class="mb-3">
+                                <span class="icon has-text-vert">
+                                    <i class="fas fa-check-circle"></i>
+                                </span>
+                                Maîtriser les frameworks CSS modernes
+                            </p>
+                            <p class="mb-3">
+                                <span class="icon has-text-vert">
+                                    <i class="fas fa-check-circle"></i>
+                                </span>
+                                Développer des applications web responsive
+                            </p>
+                            <p class="mb-3">
+                                <span class="icon has-text-vert">
+                                    <i class="fas fa-check-circle"></i>
+                                </span>
+                                Créer des interfaces utilisateur intuitives
+                            </p>
+                        </div>
+                        
+                        <h3 class="title is-4 has-text-grey-dark mt-5">Contact</h3>
+                        <div class="box">
+                            <div class="content">
+                                <p>
+                                    <span class="icon has-text-rose">
+                                        <i class="fas fa-envelope"></i>
+                                    </span>
+                                    marsaniamani6@gmail.com
+                                </p>
+                                <p>
+                                    <span class="icon has-text-rose">
+                                        <i class="fas fa-phone"></i>
+                                    </span>
+                                    +216 23711512
+                                </p>
+                                <p>
+                                    <span class="icon has-text-rose">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </span>
+                                    Bizerte, Tunisie
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Compétences -->
+    <section class="section has-background-vert-clair" id="competences">
+        <div class="container">
+            <h2 class="title is-2 section-title has-text-vert">Compétences Techniques</h2>
+            
+            <div class="columns is-multiline">
+                <div class="column is-3">
+                    <div class="card has-text-centered">
+                        <div class="card-content">
+                            <span class="icon-large has-text-vert">
+                                <i class="fab fa-html5"></i>
+                            </span>
+                            <h3 class="title is-4">HTML5</h3>
+                            <p>Structure sémantique, accessibilité</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="column is-3">
+                    <div class="card has-text-centered">
+                        <div class="card-content">
+                            <span class="icon-large has-text-rose">
+                                <i class="fab fa-css3-alt"></i>
+                            </span>
+                            <h3 class="title is-4">CSS3</h3>
+                            <p>Flexbox, Grid, animations</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="column is-3">
+                    <div class="card has-text-centered">
+                        <div class="card-content">
+                            <span class="icon-large has-text-vert">
+                                <i class="fab fa-js"></i>
+                            </span>
+                            <h3 class="title is-4">JavaScript</h3>
+                            <p>Bases, DOM manipulation</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="column is-3">
+                    <div class="card has-text-centered">
+                        <div class="card-content">
+                            <span class="icon-large has-text-rose">
+                                <i class="fas fa-paint-brush"></i>
+                            </span>
+                            <h3 class="title is-4">Bulma CSS</h3>
+                            <p>Framework CSS, responsive design</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tags are-large is-centered mt-6">
+                <span class="tag skill-tag">Responsive Design</span>
+                <span class="tag skill-tag">UI/UX Design</span>
+                <span class="tag skill-tag">Git & GitHub</span>
+                <span class="tag skill-tag">Figma</span>
+                <span class="tag skill-tag">SEO Basics</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projets -->
+    <section class="section" id="projets">
+        <div class="container">
+            <h2 class="title is-2 section-title has-text-vert">Mes Projets</h2>
+            
+            <div class="columns is-multiline">
+                <!-- Projet PharmaCare -->
+                <div class="column is-6">
+                    <div class="card project-card">
+                        <div class="card-image">
+                            <figure class="image is-4by3">
+                                <img src="https://images.unsplash.com/photo-1587854692152-cbe660dbde88?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Pharmacy">
+                            </figure>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="title is-4 has-text-vert">PharmaCare</h3>
+                            <p class="subtitle is-6">Site pharmaceutique moderne</p>
+                            <div class="content">
+                                <p>Plateforme pharmaceutique en ligne avec système de commande et gestion des médicaments. Réalisé avec Bulma CSS.</p>
+                                <div class="tags">
+                                    <span class="tag is-vert">HTML5</span>
+                                    <span class="tag is-rose">CSS3</span>
+                                    <span class="tag is-vert">Bulma</span>
+                                </div>
+                            </div>
+                            <a href="pharmacare.html" class="button is-rose is-fullwidth">
+                                Voir le projet
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Projet Restaurant -->
+                <div class="column is-6">
+                    <div class="card project-card">
+                        <div class="card-image">
+                            <figure class="image is-4by3">
+                                <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Restaurant">
+                            </figure>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="title is-4 has-text-vert">Restaurant Le Gourmet</h3>
+                            <p class="subtitle is-6">Site de menu restaurant</p>
+                            <div class="content">
+                                <p>Site web responsive pour restaurant avec menu interactif et système de réservation.</p>
+                                <div class="tags">
+                                    <span class="tag is-vert">HTML5</span>
+                                    <span class="tag is-rose">CSS3</span>
+                                    <span class="tag is-vert">Bulma</span>
+                                </div>
+                            </div>
+                            <button class="button is-rose is-fullwidth" disabled>
+                                Projet en cours
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="section has-background-vert-clair" id="contact">
+        <div class="container">
+            <h2 class="title is-2 section-title has-text-vert">Contact</h2>
+            
+            <div class="columns">
+                <div class="column is-8 is-offset-2">
+                    <div class="box">
+                        <form>
+                            <div class="field">
+                                <label class="label">Nom</label>
+                                <div class="control">
+                                    <input class="input" type="text" placeholder="Votre nom">
+                                </div>
+                            </div>
+                            
+                            <div class="field">
+                                <label class="label">Email</label>
+                                <div class="control">
+                                    <input class="input" type="email" placeholder="Votre email">
+                                </div>
+                            </div>
+                            
+                            <div class="field">
+                                <label class="label">Message</label>
+                                <div class="control">
+                                    <textarea class="textarea" placeholder="Votre message" rows="6"></textarea>
+                                </div>
+                            </div>
+                            
+                            <div class="field">
+                                <div class="control">
+                                    <button class="button is-rose is-fullwidth">
+                                        Envoyer le message
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="content has-text-centered">
+                <p>
+                    <strong>Portfolio Intégration Web</strong> - Projet réalisé avec Bulma CSS
+                </p>
+                <p>
+                    Faculté des Sciences Economiques et de Gestion de Nabeul<br>
+                    Dr. Oussama Ben Khiroun
+                </p>
+                <p class="mt-4">
+                    <a href="index.html" class="has-text-white">Portfolio</a> | 
+                    <a href="pharmacare.html" class="has-text-white">PharmaCare</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Font Awesome pour les icônes -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    
+    <!-- Script simple pour le menu burger -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const burger = document.querySelector('.navbar-burger');
+            const menu = document.querySelector('.navbar-menu');
+            
+            burger.addEventListener('click', () => {
+                burger.classList.toggle('is-active');
+                menu.classList.toggle('is-active');
+            });
+        });
+    </script>
+</body>
+</html>
