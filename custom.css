@@ -1,0 +1,203 @@
+/* ========== PALETTE PHARMA ========== */
+:root {
+    /* Rose pharmaceutique */
+    --pharma-rose: #8B0045;
+    --pharma-rose-light: #A8326D;
+    --pharma-rose-pale: #F8E8F0;
+    
+    /* Vert médical */
+    --pharma-green: #006B5D;
+    --pharma-green-light: #009688;
+    --pharma-green-pale: #E8F4F2;
+    
+    /* Neutres */
+    --pharma-white: #FFFFFF;
+    --pharma-gray-light: #F5F7FA;
+    --pharma-gray: #4A5568;
+    --pharma-dark: #1A202C;
+    
+    /* Accents */
+    --pharma-accent: #FF6B8B;
+    --pharma-success: #38B2AC;
+    --pharma-warning: #ED8936;
+    --pharma-danger: #E53E3E;
+}
+
+/* ========== CLASSES BULMA PERSONNALISÉES ========== */
+/* Couleurs de texte */
+.has-text-pharma-rose { color: var(--pharma-rose) !important; }
+.has-text-pharma-green { color: var(--pharma-green) !important; }
+.has-text-pharma-accent { color: var(--pharma-accent) !important; }
+
+/* Backgrounds */
+.has-background-pharma-rose { background-color: var(--pharma-rose) !important; }
+.has-background-pharma-green { background-color: var(--pharma-green) !important; }
+.has-background-pharma-pale { background-color: var(--pharma-rose-pale) !important; }
+.has-background-pharma-dark { background-color: var(--pharma-dark) !important; }
+
+/* Boutons */
+.button.is-pharma-rose {
+    background-color: var(--pharma-rose);
+    color: var(--pharma-white);
+    border-color: transparent;
+}
+.button.is-pharma-rose:hover {
+    background-color: var(--pharma-rose-light);
+    color: var(--pharma-white);
+}
+
+.button.is-pharma-green {
+    background-color: var(--pharma-green);
+    color: var(--pharma-white);
+    border-color: transparent;
+}
+.button.is-pharma-green:hover {
+    background-color: var(--pharma-green-light);
+    color: var(--pharma-white);
+}
+
+/* Gradient pharmaceutique */
+.is-pharma-gradient {
+    background: linear-gradient(135deg, var(--pharma-rose) 0%, var(--pharma-green) 100%);
+}
+
+/* ========== COMPOSANTS PERSONNALISÉS ========== */
+/* Cartes améliorées */
+.card.feature-card {
+    border-radius: 15px;
+    border: 2px solid var(--pharma-rose-pale);
+    transition: all 0.3s ease;
+    height: 100%;
+}
+.card.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(139, 0, 69, 0.1);
+    border-color: var(--pharma-rose);
+}
+
+.card.product-card {
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+.card.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 107, 93, 0.15);
+}
+
+/* Cercles d'icônes */
+.icon-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.icon-circle.is-pharma-rose-bg {
+    background-color: var(--pharma-rose);
+}
+.icon-circle.is-pharma-green-bg {
+    background-color: var(--pharma-green);
+}
+
+/* Badge panier */
+.cart-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: var(--pharma-accent);
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Tags positionnés */
+.tag.is-top-right {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+}
+
+/* Formulaires */
+.contact-form-card {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(139, 0, 69, 0.08);
+}
+
+.textarea, .input, .select select {
+    border-radius: 10px;
+    border: 2px solid var(--pharma-rose-pale);
+}
+.textarea:focus, .input:focus, .select select:focus {
+    border-color: var(--pharma-green);
+    box-shadow: 0 0 0 0.125em rgba(0, 107, 93, 0.25);
+}
+
+/* Hero Portfolio */
+.hero-portfolio {
+    background: linear-gradient(rgba(26, 32, 44, 0.9), rgba(26, 32, 44, 0.9)),
+                url('../images/portfolio/hero-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.profile-avatar {
+    border: 5px solid var(--pharma-rose);
+    border-radius: 50%;
+    padding: 5px;
+    display: inline-block;
+    margin-bottom: 30px;
+}
+
+.scroll-indicator {
+    display: inline-block;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+    40% {transform: translateY(-10px);}
+    60% {transform: translateY(-5px);}
+}
+
+/* Navigation active state */
+.navbar-item.is-active {
+    border-bottom: 3px solid var(--pharma-accent);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .hero-body .title {
+        font-size: 2rem !important;
+    }
+    .hero-body .subtitle {
+        font-size: 1.25rem !important;
+    }
+    .feature-card {
+        margin-bottom: 20px;
+    }
+}
+
+/* Animations */
+.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease;
+}
+
+.animate-on-scroll.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
